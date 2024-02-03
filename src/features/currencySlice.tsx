@@ -10,6 +10,8 @@ interface CurrencyState {
   loading: 'idle' | 'pending' | 'succeeded' | 'failed';
   error: string | null;
 }
+
+
 export const fetchExchangeRates = createAsyncThunk(
   'currency/fetchExchangeRates',
   async (baseCurrency: string) => {
@@ -64,6 +66,9 @@ const currencySlice = createSlice({
     setAmount: (state, action) => {
       state.amount = action.payload;
     },
+    setRates: (state, action) => {
+      state.rates = action.payload;
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -73,6 +78,8 @@ const currencySlice = createSlice({
       .addCase(fetchExchangeRates.fulfilled, (state, action) => {
         state.loading = 'succeeded';
         state.rates = action.payload;
+        
+        
       })
       .addCase(fetchExchangeRates.rejected, (state) => {
         state.loading = 'failed';
@@ -82,7 +89,7 @@ const currencySlice = createSlice({
   },
 });
 
-export const { setBaseCurrency, setTargetCurrency, setAmount } = currencySlice.actions;
+export const { setBaseCurrency, setTargetCurrency, setAmount, setRates} = currencySlice.actions;
 
 export const selectCurrency = (state: { currency: CurrencyState }) => state.currency;
 

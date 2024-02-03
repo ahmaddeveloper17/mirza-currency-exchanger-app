@@ -25,8 +25,8 @@ export default function Home() {
         </div>
       </div>
 
-      <div className="my-48 text-center justify-center lg:mt-[335px] md:mt-[325px] input:mt-[625px] sm:mt-[355px] xl:mt-[345px] 2xl:mt-[355px] 3xl:mt-[365px]  4xl:mt-[375px] ">
-        <h1 className="text-gray-900 font-roboto text-4xl font-bold leading-10">Let’s save you some time</h1>
+      <div className="my-48 sm:ml-[280px]  input:ml-[4px] lg:mt-[335px] md:mt-[325px] input:mt-[625px] sm:mt-[355px] xl:mt-[345px] 2xl:mt-[355px] 3xl:mt-[365px]  4xl:mt-[375px] ">
+        <h1 className="text-gray-900  font-roboto text-4xl font-bold leading-10">Let’s save you some time</h1>
         <p className="mt-6">
           If you’ve got a target exchange rate in mind but haven’t got time to keep tabs <br /> on market movement, then a
           firm order could be perfect for you. When your <br /> chosen rate is reached, we’ll act immediately, leaving

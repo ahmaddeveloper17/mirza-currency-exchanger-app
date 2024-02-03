@@ -7,9 +7,10 @@ import {
   setBaseCurrency,
   setTargetCurrency,
   setAmount,
+  setRates,
   fetchExchangeRates,
 } from '../features/currencySlice';
-import {Cross} from '../assets/SVGs/Icons';
+import { Cross } from '../assets/SVGs/Icons';
 
 const apiUrl = 'https://route-handler-bootcamp.vercel.app/api/http:/api.exchangeratesapi.io/v1/symbols?access_key=4c9fea4e264cd6f8266a884feb4b839b';
 
@@ -166,31 +167,27 @@ function App() {
           {loading === 'failed' && <p>Error: {error}</p>}
         </div>
       </div>
-      <div className='flex flex-col ml-[40px] sm:flex-row mt-14 justify-between'>
+      <div className='flex flex-col ml-[40px] sm:flex-row mt-14 mr-[3px]]'>
         <p
-          className='w-[600px] h-8 mt-2 rounded-full  font-roboto text-base font-bold leading-10 cursor-pointer flex '
+          className='w-[600px] h-8 mt-2 rounded-full   font-roboto text-base font-bold leading-10 cursor-pointer flex '
         >
-          {"1.00"} {baseCurrency} = {convertedAmount?.toFixed(2)} {targetCurrency}
-          <div className='bg-blue-500 text-white ml-[15px] mt-[10px] w-[22px] h-[22px] rounded-full flex items-center justify-center'>
+          {"1.00"} {baseCurrency} = { } {targetCurrency}
+          <div onMouseOut={() => setPopupVisible(false)} onClickCapture={() => setPopupVisible(false)} onClick={() => setPopupVisible(true)} onMouseOver={() => setPopupVisible(true)} className='  bg-blue-500 text-white ml-[15px] mt-[10px] w-[22px] h-[22px] rounded-full flex items-center justify-center'>
             i
           </div>
         </p>
         {popupVisible && (
-          <div className="fixed inset-0  bg-blue-500 bg-opacity-75 z-10 flex items-center justify-center">
-            <div className="bg-white p-8 rounded-md shadow-lg">
-              <p className="text-xl font-bold text-gray-800">
-                Conversion Successful
+          <div className="fixed inset-0  bg-opacity-75 z-10 flex items-center justify-center">
+            <div className="bg-[#F0F5FF]  text-[#3D55DD] p-[20px] rounded-md shadow-lg">
+              <p className="text-xl font-bold text-[#3D55DD]">
+                Exchange rate at 14:00 GMT.
               </p>
-              <p>
-                {amount} {baseCurrency} is converted to {convertedAmount}{' '}
-                {targetCurrency}.
-              </p>
-              <button
-                className="mt-4 bg-blue-500 text-white py-2 px-4 rounded-md"
-                onClick={() => setPopupVisible(false)}
-              >
-                Close
-              </button>
+              <p className='mt-[25px]'>
+
+                Live rates vary minute to minute. The <br /> quotes you receive here will differ to <br /> your final trade amount.<br />
+                <p className='mt-[20px]'>
+                  Lorem ipsum dolor sit amet <br /> consectetur adipiscing elit mod duo sed <br /> eiusmod lorem ipsum dolor sit amet<br /> consectetur adipiscing elit mod duo.
+                </p></p>
             </div>
           </div>
         )}
