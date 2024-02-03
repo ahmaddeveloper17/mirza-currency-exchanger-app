@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom';
 import React from 'react';
 import { useLocation } from 'react-router-dom';
-import img from '../assets/Vector.png';
+import arrow from '../assets/Vector.png';
 import Card from '../components/card'; 
 export default function IndividualCurrency() {
   const location = useLocation();
@@ -16,7 +16,7 @@ export default function IndividualCurrency() {
           <button className="rounded-sm mt-6 bg-red-500 border-2 border-red-500 hover:bg-white hover:text-red-500 h-14 mb-20 text-white p-4">Compare rates</button>
         </div>
         <div className="mt-20 ml-[30px]">
-          <img src={img} alt="image not found" width={500} />
+          <img src={arrow} alt="arrow" width={500} />
         </div>
       </div>
 
