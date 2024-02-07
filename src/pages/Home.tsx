@@ -39,10 +39,10 @@ export default function Home() {
       <div className='bg-blue-100 bg-blue-300/30 h-[260px]'>
       
         <h1 className="text-center text-gray-900 pt-[20px] font-roboto text-4xl font-bold leading-10">Popular currencies</h1>
-        <div className="flex flex-col sm:flex-row pt-[20px] justify-center items-center  mt-16">
+        <div className="flex flex-col sm:flex-row pt-[20px] justify-center items-center   mt-16">
           
           <select
-            className='w-[350px]  h-10 rounded-sm mt-3 p-1 border-2 text-gray-400 focus:outline-none'
+            className='w-[440px] input:w-[350px]  h-[44px] rounded-sm mt-3 p-1 border-2 text-gray-400 focus:outline-none'
             onChange={(e) => setSelectedCurrency(e.target.value)}
           >
             <option value=""> Select Currency </option>
@@ -55,9 +55,9 @@ export default function Home() {
           </select>
           <button
             onClick={handleDropDown}
-            className='border-2 mt-3 w-2/3 h-[40px] sm:w-2/12 rounded-sm border-red-500 mx-4 px-8 ph-1 bg-red-500 text-white font-bold hover:bg-white hover:text-red-500'
-          >
-            Go
+            className='border-2 mt-3 rounded-sm border-red-500 mx-4 px-8 ph-1 bg-red-500 text-white font-bold hover:bg-white hover:text-red-500'
+          ><div className='px-[75px] pt-[7px] pb-[7px]'>
+            Go</div>
           </button>
         </div>
       

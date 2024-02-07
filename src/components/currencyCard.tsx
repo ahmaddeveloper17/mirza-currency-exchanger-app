@@ -49,12 +49,16 @@ function App() {
   }, []);
 
   useEffect(() => {
+    console.log('Fetching exchange rates for:', baseCurrency);
     dispatch(fetchExchangeRates(baseCurrency) as any);
   }, [dispatch, baseCurrency]);
+
+
 
   const handleBaseCurrencyChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     dispatch(setBaseCurrency(event.target.value));
   };
+
 
   const handleTargetCurrencyChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     dispatch(setTargetCurrency(event.target.value));
@@ -114,12 +118,20 @@ function App() {
                   id="baseCurrency"
                   name="baseCurrency"
                   value={baseCurrency}
-                  className="currency-select border-r-white  border-b-2 mt-[-16px] border-l-2 h-[78px] border-black h-17 w-full"
+                  className="currency-select border-r-white border-b-2 mt-[-16px] border-l-2 h-[78px] border-black h-17 w-full"
                   onChange={handleBaseCurrencyChange}
+                  style={{ fontFamily: 'YourChosenFont, sans-serif' }}
                 >
                   {mapRatesToOptions().map((option) => (
                     <option key={option.value} value={option.value}>
-                      {option.value}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;{option.label}
+                      <table>
+                        <tbody>
+                          <tr>
+                            <td style={{ width: '100px', fontFamily: 'YourChosenFont, sans-serif' }}>{option.value}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;</td>
+                            <td style={{ fontFamily: 'YourChosenFont, sans-serif' }}>{option.label}</td>
+                          </tr>
+                        </tbody>
+                      </table>
                     </option>
                   ))}
                 </select>
@@ -153,10 +165,18 @@ function App() {
                   value={targetCurrency}
                   className="currency-select border-r-white  border-b-2 mt-[-16px] border-l-2 h-[78px] border-black h-17 w-full"
                   onChange={handleTargetCurrencyChange}
+                  style={{ fontFamily: 'YourChosenFont, sans-serif' }}
                 >
                   {mapRatesToOptions().map((option) => (
                     <option key={option.value} value={option.value}>
-                      {option.value}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;{option.label}
+                      <table>
+                        <tbody>
+                          <tr>
+                            <td style={{ width: '100px', fontFamily: 'YourChosenFont, sans-serif' }}>{option.value}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;</td>
+                            <td style={{ fontFamily: 'YourChosenFont, sans-serif' }}>{option.label}</td>
+                          </tr>
+                        </tbody>
+                      </table>
                     </option>
                   ))}
                 </select>
@@ -168,14 +188,13 @@ function App() {
         </div>
       </div>
       <div className='flex flex-col ml-[40px] sm:flex-row mt-14 mr-[3px]]'>
-        <p
-          className='w-[600px] h-8 mt-2 rounded-full   font-roboto text-base font-bold leading-10 cursor-pointer flex '
-        >
-          {"1.00"} {baseCurrency} = { } {targetCurrency}
+        <p className='w-[600px] h-8 mt-2 rounded-full   font-roboto text-base font-bold leading-10 cursor-pointer flex '>
+          {"1.00"} {baseCurrency} = {rates[baseCurrency] ? rates[targetCurrency] : 'Loading...'} {targetCurrency}
           <div onMouseOut={() => setPopupVisible(false)} onClickCapture={() => setPopupVisible(false)} onClick={() => setPopupVisible(true)} onMouseOver={() => setPopupVisible(true)} className='  bg-blue-500 text-white ml-[15px] mt-[10px] w-[22px] h-[22px] rounded-full flex items-center justify-center'>
             i
           </div>
         </p>
+
         {popupVisible && (
           <div className="fixed inset-0  bg-opacity-75 z-10 flex items-center justify-center">
             <div className="bg-[#F0F5FF]  text-[#3D55DD] p-[20px] rounded-md shadow-lg">
@@ -191,7 +210,7 @@ function App() {
             </div>
           </div>
         )}
-        <button onClick={convertCurrency} className=" lg:px-[110px] md:px-[60px] sm:px-[30px] xl:px-[155px] 2xl:px-[205px] 3xl:px-[245px]  4xl:px-[275px] mr-[40px] h-10 mt-3 border-2 border-red-500 hover:bg-white hover:text-red-500 flex-shrink-0 rounded-sm bg-red-500 text-white font-roboto text-base leading-46 cursor-pointer">
+        <button onClick={convertCurrency} className=" lg:px-[110px] md:px-[60px] sm:px-[30px] xl:px-[155px] 2xl:px-[205px] 3xl:px-[245px] 4xl:ml-[100px]  4xl:px-[275px] mr-[40px] h-10 mt-3 border-2 border-red-500 hover:bg-white hover:text-red-500 flex-shrink-0 rounded-sm bg-red-500 text-white font-roboto text-base leading-46 cursor-pointer">
           Get started
         </button>
       </div>
