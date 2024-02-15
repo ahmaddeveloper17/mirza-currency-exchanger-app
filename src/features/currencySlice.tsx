@@ -1,60 +1,42 @@
-
-import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import axios from 'axios';
-
+import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import axios from "axios";
 interface CurrencyState {
   rates: Record<string, number>;
-  baseCurrency: string;
-  targetCurrency: string;
-  amount: number;
-  loading: 'idle' | 'pending' | 'succeeded' | 'failed';
+  symbols: Record<string, string>;
+  loading: "idle" | "pending" | "succeeded" | "failed";
   error: string | null;
+  baseCurrency?: string;
+  targetCurrency?: string;
 }
-
-
-export const fetchExchangeRates = createAsyncThunk(
-  'currency/fetchExchangeRates',
-  async (baseCurrency: string) => {
-    try {
-      const response = await axios.get(`  https://route-handler-bootcamp.vercel.app/api/http:/api.exchangeratesapi.io/v1/latest?access_key=4c9fea4e264cd6f8266a884feb4b839b`);
-      const responseData = response.data.rates;
-      // console.log(response);
-
-      return responseData;
-    } catch (error) {
-      // console.error('Error fetching exchange rates:', error);
-      throw Error('Failed to fetch exchange rates');
-    }
+export const fetchData = createAsyncThunk("currencyData", async () => {
+  try {
+    const response1 = await axios.get(
+      `https://route-handler-bootcamp.vercel.app/api/http:/api.exchangeratesapi.io/v1/symbols?access_key=4c9fea4e264cd6f8266a884feb4b839b`
+    );
+    const response2 = await axios.get(
+      `https://route-handler-bootcamp.vercel.app/api/http:/api.exchangeratesapi.io/v1/latest?access_key=4c9fea4e264cd6f8266a884feb4b839b`
+    );
+    return {
+      rates: response2.data.rates,
+      symbols: response1.data.symbols,
+    } as {
+      rates: Record<string, number>;
+      symbols: Record<string, string>;
+    };
+  } catch (error) {
+    throw new Error("Failed to fetch data");
   }
-);
-
-// export const fetchCountryNames = createAsyncThunk(
-//   'currency/fetchExchangeRates',
-//   async (baseCurrency: string) => {
-//     try {
-//       const response = await axios.get(` https://route-handler-bootcamp.vercel.app/api/http:/api.exchangeratesapi.io/v1/symbols?access_key=4c9fea4e264cd6f8266a884feb4b839b`);
-//       const responseData = response.data.symbols;
-//       console.log(response);
-
-//       return responseData;
-//     } catch (error) {
-//      // console.error('Error fetching exchange rates:', error);
-//       throw Error('Failed to fetch exchange rates');
-//     }
-//   }
-// );
-
+});
 const initialState: CurrencyState = {
   rates: {},
-  baseCurrency: 'USD',
-  targetCurrency: 'PKR',
-  amount: 0,
-  loading: 'idle',
+  symbols: {},
+  baseCurrency: "USD",
+  targetCurrency: "PKR",
+  loading: "idle",
   error: null,
 };
-
 const currencySlice = createSlice({
-  name: 'currency',
+  name: "currency",
   initialState,
   reducers: {
     setBaseCurrency: (state, action) => {
@@ -63,36 +45,33 @@ const currencySlice = createSlice({
     setTargetCurrency: (state, action) => {
       state.targetCurrency = action.payload;
     },
-    setAmount: (state, action) => {
-      state.amount = action.payload;
+    baseCurrency: (state, action) => {
+      state.baseCurrency = action.payload;
     },
-    setRates: (state, action) => {
-      state.rates = action.payload;
+    targetCurrency: (state, action) => {
+      state.targetCurrency = action.payload;
     },
   },
   extraReducers: (builder) => {
     builder
-      .addCase(fetchExchangeRates.pending, (state) => {
-        state.loading = 'pending';
+      .addCase(fetchData.pending, (state) => {
+        state.loading = "pending";
       })
-      .addCase(fetchExchangeRates.fulfilled, (state, action) => {
-        state.loading = 'succeeded';
-        state.rates = action.payload;
-        
-        
+      .addCase(fetchData.fulfilled, (state, action) => {
+        state.loading = "succeeded";
+        state.rates = action.payload?.rates || {};
+        state.symbols = action.payload?.symbols || {};
       })
-      .addCase(fetchExchangeRates.rejected, (state) => {
-        state.loading = 'failed';
-        state.error = 'Failed to fetch exchange rates';
-      })
-
+      .addCase(fetchData.rejected, (state, action) => {
+        state.loading = "failed";
+        state.error = action.error.message || "An error occurred";
+      });
   },
 });
-
-export const { setBaseCurrency, setTargetCurrency,setAmount, setRates} = currencySlice.actions;
-
-export const selectCurrency = (state: { currency: CurrencyState }) => state.currency;
-
+export const { setBaseCurrency, baseCurrency, setTargetCurrency } =
+  currencySlice.actions;
+export const selectCurrency = (state: { currency: CurrencyState }) =>
+  state.currency;
+export const selectSymbols = (state: { currency: CurrencyState }) =>
+  state.currency.symbols;
 export default currencySlice.reducer;
-
-
